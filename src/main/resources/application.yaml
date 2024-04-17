@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    gcp:
+      firestore:
+        project-id: interns-melinda  # Ensure this matches your Google Cloud project ID
+        # Remove or comment out the emulator settings as they are not needed for production
+        # emulator:
+        #   enabled: false
+        # host-port: localhost:8082
