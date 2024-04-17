@@ -49,6 +49,6 @@ jobs:
       - name: Deploy to Google Cloud Run
         run: |
           gcloud config set project interns-melinda
-          gcloud run deploy my-app --image gcr.io/interns-melinda/my-app --platform managed --region us-central1 --allow-unauthenticated
+          gcloud run deploy my-app --image gcr.io/interns-melinda/my-app --platform managed --region europe-north1 --allow-unauthenticated
   
 
