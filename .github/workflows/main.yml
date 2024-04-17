@@ -18,6 +18,10 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+
+      - name: Grant Permission
+        run: chmod +x ./gradlew
+
       - name: Build Booking API
         run: ./gradlew build -x test
 
