@@ -39,15 +39,16 @@ jobs:
         with:
           version: '>= 416.0.0'
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          project_id: interns-melinda
 
       - name: Build and Push Docker Image
         run: |
-          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app .
+          gcloud config set project interns-melinda
+          gcloud builds submit --tag gcr.io/interns-melinda/my-app .
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-          gcloud run deploy my-app --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-app --platform managed --region us-central1 --allow-unauthenticated
+          gcloud config set project interns-melinda
+          gcloud run deploy my-app --image gcr.io/interns-melinda/my-app --platform managed --region us-central1 --allow-unauthenticated
   
 
