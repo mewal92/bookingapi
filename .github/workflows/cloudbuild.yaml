@@ -43,14 +43,15 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          gcloud config set account interns-melinda
+        
           gcloud config set project interns-melinda
+          gcloud auth activate-service-account ${{ secrets.GCP_SA_KEY }}
           gcloud builds submit --tag gcr.io/interns-melinda/my-app .
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud config set account interns-melinda
           gcloud config set project interns-melinda
+          gcloud auth activate-service-account ${{ secrets.GCP_SA_KEY }}
           gcloud run deploy my-app --image gcr.io/interns-melinda/my-app --platform managed --region europe-north1 --allow-unauthenticated
   
 
