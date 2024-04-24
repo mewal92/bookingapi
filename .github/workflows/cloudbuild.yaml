@@ -10,8 +10,8 @@ on:
 
 env:
   PROJECT_ID: interns-melinda
-  IMAGE: europe-north1-docker.pkg.dev/interns-melinda/cloud-run-source-deploy/my-app
-  REGION: europe-north1
+  IMAGE: europe-central2-docker.pkg.dev/interns-melinda/cloud-run-source-deploy/my-app
+  REGION: europe-central2
   SERVICE_NAME: bookingapi
 
 
@@ -38,7 +38,7 @@ jobs:
       - name: Login to Google Container Registry
         uses: docker/login-action@v3
         with:
-          registry: europe-north1-docker.pkg.dev
+          registry: europe-central2-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GCP_KEY_SA }}
 
