@@ -60,5 +60,5 @@ jobs:
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud auth activate-service-account --key-file ${{ secrets.GCP_KEY_FILE }} 
+          gcloud auth activate-service-account [project-service-account@interns-melinda.iam.gserviceaccount.com] --key-file=${{ secrets.GCP_KEY_FILE }} 
           gcloud run deploy ${{ env.SERVICE_NAME }} \--image ${{ env.IMAGE }}:latest \--region ${{ env.REGION }} \--platform managed \--allow-unauthenticated
