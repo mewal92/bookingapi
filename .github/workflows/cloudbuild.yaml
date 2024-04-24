@@ -12,7 +12,7 @@ env:
   PROJECT_ID: interns-melinda
   IMAGE: europe-north1-docker.pkg.dev/interns-melinda/cloud-run-source-deploy/my-app
   REGION: europe-north1
-  SERVICE_NAME: cloud-run-source-deploy
+  SERVICE_NAME: bookingapi
 
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
           tags: ${{ env.IMAGE }}:latest
 
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@main
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ env.PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_KEY_SA }}
