@@ -38,5 +38,4 @@ public class Booking {
         this.toDate = toDate;
         this.category = category;
     }
-
 }

@@ -109,7 +109,6 @@ public class BookingService {
             }
         }
 
-        // Update the document with one go
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
 
@@ -126,7 +125,6 @@ public class BookingService {
             return null;
         }
     }
-
 
 
     public List<Map<String, Object>> getBookingsByUserId(String userId) throws Exception {
