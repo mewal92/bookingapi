@@ -13,6 +13,7 @@ java {
 
 repositories {
     mavenCentral()
+    google()
 }
 
 dependencies {
@@ -25,6 +26,8 @@ dependencies {
     implementation ("com.google.cloud:spring-cloud-gcp-starter-data-firestore:5.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("com.google.firebase:firebase-admin:8.0.1")
+    implementation("com.google.cloud:google-cloud-pubsub:1.114.0")
+    implementation("com.google.code.gson:gson:2.8.6")
 }
 
 

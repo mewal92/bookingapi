@@ -1,9 +1,7 @@
 package com.bookingbee.bookingapi.controller;
 
-
 import com.bookingbee.bookingapi.model.Booking;
 import com.bookingbee.bookingapi.service.BookingService;
-import com.google.cloud.firestore.Firestore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

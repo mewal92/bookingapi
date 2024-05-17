@@ -7,6 +7,7 @@ import com.google.cloud.firestore.*;
 import com.google.firestore.v1.Write;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -91,6 +92,13 @@ public class BookingService {
             return "Event does not exist.";
         }
 
+        DocumentReference userDocRef = db.collection("users").document(userId);
+        DocumentSnapshot userSnapshot = userDocRef.get().get();
+        String userEmail = userSnapshot.exists() ? (String) userSnapshot.getData().get("email") : null;
+        if (userEmail == null) {
+            return "User email not found.";
+        }
+
         Map<String, Object> bookingData = bookingSnapshot.getData();
         if (bookingData.containsKey("userId") && bookingData.get("userId") != null) {
             return "Event is already booked.";
@@ -112,8 +120,23 @@ public class BookingService {
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
 
+        publishBookingConfirmation(userEmail, userId, id);
+
         return "Booking updated successfully with user ID: " + userId;
     }
+
+    public void publishBookingConfirmation(String email, String userId, String bookingId) {
+        String projectId = "interns-melinda";
+        String topicId = "booking-confirmation";
+        String messageJson = String.format("{\"email\": \"%s\", \"userId\": \"%s\", \"bookingId\": \"%s\"}", email, userId, bookingId);
+
+        try {
+            new PubSubPublisher().publishMessage(projectId, topicId, email, messageJson);
+        } catch (IOException e) {
+            System.err.println("Error when trying to publish booking confirmation: " + e.getMessage());
+        }
+    }
+
 
     private Timestamp convertStringToTimestamp(String dateString) {
         try {
