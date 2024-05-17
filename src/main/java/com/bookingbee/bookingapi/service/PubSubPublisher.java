@@ -16,7 +16,7 @@ public class PubSubPublisher {
         try {
             publisher = Publisher.newBuilder(topicName).build();
 
-            String messageStr = String.format("{\"email\": \"%s\", \"bookingDetails\": %s}", email, bookingDetailsJson);
+            String messageStr = String.format("Thank you, " + email + " for your booking. Here are your booking details: " + bookingDetailsJson);
             ByteString data = ByteString.copyFromUtf8(messageStr);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(data)

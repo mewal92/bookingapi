@@ -128,7 +128,7 @@ public class BookingService {
     public void publishBookingConfirmation(String email, String userId, String bookingId) {
         String projectId = "interns-melinda";
         String topicId = "booking-confirmation";
-        String messageJson = String.format("{\"email\": \"%s\", \"userId\": \"%s\", \"bookingId\": \"%s\"}", email, userId, bookingId);
+        String messageJson = String.format("{\"Thank you, email\": \"%s\", \" for your booking.\": \"%s\", \"bookingId\": \"%s\"}", email, userId, bookingId);
 
         try {
             new PubSubPublisher().publishMessage(projectId, topicId, email, messageJson);
