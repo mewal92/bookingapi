@@ -54,12 +54,12 @@ public class BookingController {
 
 
     @PostMapping("/book-event")
-    public ResponseEntity<?> bookEvent(@RequestBody Booking payload) {
+    public ResponseEntity<?> bookEvent(@RequestBody Map<String, String> payload) {
         try {
-            String id = payload.getId();
-            String userId = payload.getUserId();
-            String startDateString = String.valueOf(payload.getFromDate());
-            String endDateString = String.valueOf(payload.getToDate());
+            String id = payload.get("id");
+            String userId = payload.get("userId");
+            String startDateString = payload.get("startDate");
+            String endDateString = payload.get("endDate");
 
             String result = bookingService.bookEvent(id, userId, startDateString, endDateString);
             System.out.println("Received booking payload: id=" + id + ", userId=" + userId + ", startDate=" + startDateString + ", endDate=" + endDateString);
