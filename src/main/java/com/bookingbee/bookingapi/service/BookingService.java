@@ -120,18 +120,15 @@ public class BookingService {
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
 
-        String bookingName = (String) userSnapshot.getData().get("bookingName");
-        String bookingDetails = (String) userSnapshot.getData().get("bookingDetails");
-
-        publishBookingConfirmation(bookingName, bookingDetails, userId, id);
+        publishBookingConfirmation(userEmail, userId, id);
 
         return "Booking updated successfully with user ID: " + userId;
     }
 
-    public void publishBookingConfirmation(String email, String userId, String bookingId, String bookingDetails) {
+    public void publishBookingConfirmation(String email, String userId, String bookingId) {
         String projectId = "interns-melinda";
         String topicId = "booking-confirmation";
-        String messageJson = String.format(bookingDetails);
+        String messageJson = String.format("{\"email\": \"%s\", \"userId\": \"%s\", \"bookingId\": \"%s\"}", email, userId, bookingId);
 
         try {
             new PubSubPublisher().publishMessage(projectId, topicId, email, messageJson);
