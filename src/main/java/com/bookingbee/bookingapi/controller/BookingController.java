@@ -60,9 +60,10 @@ public class BookingController {
             String userId = payload.get("userId");
             String startDateString = payload.get("startDate");
             String endDateString = payload.get("endDate");
+            String userEmail = payload.get("email");
 
             String result = bookingService.bookEvent(id, userId, startDateString, endDateString);
-            System.out.println("Received booking payload: id=" + id + ", userId=" + userId + ", startDate=" + startDateString + ", endDate=" + endDateString);
+            System.out.println("Received booking payload: email =" + userEmail + " id=" + id + ", userId=" + userId + ", startDate=" + startDateString + ", endDate=" + endDateString);
 
             return ResponseEntity.ok().body(result);
 
