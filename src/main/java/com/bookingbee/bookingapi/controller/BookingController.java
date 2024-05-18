@@ -58,7 +58,7 @@ public class BookingController {
         try {
             String id = payload.get("id");
             String userId = payload.get("userId");
-            String userEmail = payload.get("email");
+            String userEmail = payload.get("userEmail");
             String startDateString = payload.get("startDate");
             String endDateString = payload.get("endDate");
 
