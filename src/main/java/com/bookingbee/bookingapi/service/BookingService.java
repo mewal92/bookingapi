@@ -113,17 +113,17 @@ public class BookingService {
 
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
-        publishBookingConfirmation(userEmail,bookingName, bookingDetails, startDateString);
+        publishBookingConfirmation(userEmail,bookingName, bookingDetails);
 
         return "Booking updated successfully with user ID: " + userId;
     }
 
-    public void publishBookingConfirmation(String email, String bookingName, String bookingDetails, String startDateString) {
+    public void publishBookingConfirmation(String email, String bookingName, String bookingDetails) {
         String projectId = "interns-melinda";
         String topicId = "booking-confirmation";
 
         try {
-            new PubSubPublisher().publishMessage(projectId, topicId, email, bookingName, bookingDetails, startDateString);
+            new PubSubPublisher().publishMessage(projectId, topicId, email, bookingName, bookingDetails);
         } catch (IOException e) {
             System.err.println("Error when trying to publish booking confirmation: " + e.getMessage());
         }
