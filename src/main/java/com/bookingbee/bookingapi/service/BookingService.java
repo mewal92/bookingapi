@@ -84,7 +84,7 @@ public class BookingService {
     }
 
 
-    public String bookEvent(String id, String userId, String startDateString, String endDateString) throws Exception {
+    public String bookEvent(String id, String userId, String startDateString, String endDateString, String userEmail, String bookingName, String bookingDetails) throws Exception {
         DocumentReference docRef = db.collection("bookings").document(id);
         DocumentSnapshot bookingSnapshot = docRef.get().get();
 
@@ -113,7 +113,7 @@ public class BookingService {
 
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
-
+        publishBookingConfirmation(userEmail,bookingName, bookingDetails, startDateString);
 
         return "Booking updated successfully with user ID: " + userId;
     }
