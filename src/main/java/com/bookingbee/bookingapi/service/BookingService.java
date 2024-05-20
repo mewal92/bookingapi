@@ -84,7 +84,7 @@ public class BookingService {
     }
 
 
-    public String bookEvent(String id, String userId, String startDateString, String endDateString) throws Exception {
+    public String bookEvent(String id, String userEmail, String userId, String startDateString, String endDateString) throws Exception {
         DocumentReference docRef = db.collection("bookings").document(id);
         DocumentSnapshot bookingSnapshot = docRef.get().get();
 
@@ -93,11 +93,7 @@ public class BookingService {
         }
 
         DocumentReference userDocRef = db.collection("users").document(userId);
-        DocumentSnapshot userSnapshot = userDocRef.get().get();
-        String userEmail = userSnapshot.exists() ? (String) userSnapshot.getData().get("email") : null;
-        if (userEmail == null) {
-            return "User email not found.";
-        }
+
 
         Map<String, Object> bookingData = bookingSnapshot.getData();
         if (bookingData.containsKey("userId") && bookingData.get("userId") != null) {
