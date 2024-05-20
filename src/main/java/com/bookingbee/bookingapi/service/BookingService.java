@@ -118,7 +118,7 @@ public class BookingService {
         return "Booking updated successfully with user ID: " + userId;
     }
 
-    public void publishBookingConfirmation(String email, String userId, String bookingId, String bookingName, String bookingDetails, String startDateString) {
+    public void publishBookingConfirmation(String email, String bookingName, String bookingDetails, String startDateString) {
         String projectId = "interns-melinda";
         String topicId = "booking-confirmation";
 
