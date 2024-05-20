@@ -1,7 +1,10 @@
 package com.bookingbee.bookingapi.controller;
 
 import com.bookingbee.bookingapi.model.Booking;
+import com.bookingbee.bookingapi.model.PubSubMessages;
 import com.bookingbee.bookingapi.service.BookingService;
+import com.bookingbee.bookingapi.service.PubSubPublisher;
+import com.google.cloud.pubsub.v1.Publisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.google.cloud.storage.spi.v1.StorageRpc.Option.PROJECT_ID;
 
 @CrossOrigin
 @RestController
@@ -19,11 +24,10 @@ public class BookingController {
     private final BookingService bookingService;
 
 
-
     @PostMapping("/create")
     public ResponseEntity<String> createBooking(@RequestBody Booking booking) throws Exception {
-            String result = bookingService.createBooking(booking);
-            return ResponseEntity.ok(result);
+        String result = bookingService.createBooking(booking);
+        return ResponseEntity.ok(result);
     }
 
 
@@ -52,7 +56,6 @@ public class BookingController {
     }
 
 
-
     @PostMapping("/book-event")
     public ResponseEntity<?> bookEvent(@RequestBody Map<String, String> payload) {
         try {
@@ -62,7 +65,9 @@ public class BookingController {
             String startDateString = payload.get("startDate");
             String endDateString = payload.get("endDate");
 
-            String result = bookingService.bookEvent(id, userId, userEmail, startDateString, endDateString);
+            bookingService.publishBookingConfirmation(userEmail, id, userId);
+
+            String result = bookingService.bookEvent(id, userId, startDateString, endDateString);
             System.out.println("Received booking payload: email=" + userEmail + " id=" + id + ", userId=" + userId + ", startDate=" + startDateString + ", endDate=" + endDateString);
 
             return ResponseEntity.ok().body(result);
@@ -72,6 +77,7 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to book event");
         }
     }
+
 
     @PostMapping("/cancel/{id}")
     public ResponseEntity<?> cancelBooking(@PathVariable String id) {
@@ -85,4 +91,3 @@ public class BookingController {
     }
 
 }
-

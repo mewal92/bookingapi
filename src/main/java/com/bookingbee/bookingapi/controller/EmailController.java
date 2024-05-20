@@ -1,6 +1,8 @@
 package com.bookingbee.bookingapi.controller;
 
+import com.bookingbee.bookingapi.service.BookingService;
 import com.bookingbee.bookingapi.service.EmailService;
+import com.google.gson.Gson;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,11 @@ public class EmailController {
 
     private static final Logger logger = Logger.getLogger(EmailController.class.getName());
     private final EmailService emailService;
+    private final EmailController controller;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService, EmailController controller) {
         this.emailService = emailService;
+        this.controller = controller;
     }
 
 
@@ -29,9 +33,10 @@ public class EmailController {
         logger.info("Received Pub/Sub message: " + message);
         String data = new String(Base64.getDecoder().decode(message.getMessage().getData()));
         logger.info("Decoded data: " + data);
+        Gson gson = new Gson();
+        BookingMessage bookingMessage = gson.fromJson(data, BookingMessage.class);
 
-        String[] parts = data.split(",");
-        String email = parts[0].split("=")[1];
+        String email = bookingMessage.getUserEmail();
         String subject = "Bokningsbekräftelse";
         String body = "Tack för din bokning. Detaljer: " + data;
 
@@ -61,5 +66,15 @@ public class EmailController {
                 this.data = data;
             }
         }
+    }
+
+    private static class BookingMessage {
+        @Getter
+        private String userEmail;
+        private String id;
+        private String userId;
+        private String startDateString;
+        private String endDateString;
+
     }
 }

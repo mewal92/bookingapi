@@ -84,15 +84,13 @@ public class BookingService {
     }
 
 
-    public String bookEvent(String id, String userEmail, String userId, String startDateString, String endDateString) throws Exception {
+    public String bookEvent(String id, String userId, String startDateString, String endDateString) throws Exception {
         DocumentReference docRef = db.collection("bookings").document(id);
         DocumentSnapshot bookingSnapshot = docRef.get().get();
 
         if (!bookingSnapshot.exists()) {
             return "Event does not exist.";
         }
-
-        DocumentReference userDocRef = db.collection("users").document(userId);
 
 
         Map<String, Object> bookingData = bookingSnapshot.getData();
@@ -116,7 +114,6 @@ public class BookingService {
         ApiFuture<WriteResult> writeResult = docRef.update(updates);
         System.out.println("Update time: " + writeResult.get().getUpdateTime());
 
-        publishBookingConfirmation(userEmail, userId, id);
 
         return "Booking updated successfully with user ID: " + userId;
     }
@@ -131,6 +128,24 @@ public class BookingService {
         } catch (IOException e) {
             System.err.println("Error when trying to publish booking confirmation: " + e.getMessage());
         }
+    }
+
+
+    private static class BookingMessage {
+        private String userEmail;
+        private String id;
+        private String userId;
+        private String startDateString;
+        private String endDateString;
+
+        public BookingMessage(String userEmail, String id, String userId, String startDateString, String endDateString) {
+            this.userEmail = userEmail;
+            this.id = id;
+            this.userId = userId;
+            this.startDateString = startDateString;
+            this.endDateString = endDateString;
+        }
+
     }
 
 
