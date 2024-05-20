@@ -28,6 +28,7 @@ dependencies {
     implementation("com.google.firebase:firebase-admin:8.0.1")
     implementation("com.google.cloud:google-cloud-pubsub:1.114.0")
     implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.sun.mail:javax.mail:1.6.2")
 }
 
 
