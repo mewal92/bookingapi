@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class PubSubPublisher {
 
-    public void publishMessage(String projectId, String topicId, String email, String bookingDetailsJson) throws IOException {
+    public void publishMessage(String projectId, String topicId, String email, String bookingName, String bookingDetails, String startDateString) throws IOException {
         TopicName topicName = TopicName.of(projectId, topicId);
         Publisher publisher = null;
         try {
             publisher = Publisher.newBuilder(topicName).build();
 
-            String messageStr = String.format("Thank you, " + email + " for your booking. Here are your booking details: " + bookingDetailsJson);
+            String messageStr = String.format("Thank you, " + email + " for your booking. Here are your booking details: " + bookingName, bookingDetails, startDateString);
             ByteString data = ByteString.copyFromUtf8(messageStr);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(data)

@@ -20,23 +20,19 @@ public class EmailController {
 
     private static final Logger logger = Logger.getLogger(EmailController.class.getName());
     private final EmailService emailService;
-    private final EmailController controller;
 
-    public EmailController(EmailService emailService, EmailController controller) {
+    public EmailController(EmailService emailService) {
         this.emailService = emailService;
-        this.controller = controller;
+
     }
 
 
     @PostMapping("/pubsub/push")
-    public ResponseEntity<String> receiveMessage(@RequestBody PubSubMessage message) {
+    public ResponseEntity<String> receiveMessage(@RequestBody PubSubMessage message, String email) {
         logger.info("Received Pub/Sub message: " + message);
         String data = new String(Base64.getDecoder().decode(message.getMessage().getData()));
         logger.info("Decoded data: " + data);
-        Gson gson = new Gson();
-        BookingMessage bookingMessage = gson.fromJson(data, BookingMessage.class);
 
-        String email = bookingMessage.getUserEmail();
         String subject = "Bokningsbekräftelse";
         String body = "Tack för din bokning. Detaljer: " + data;
 
@@ -67,14 +63,6 @@ public class EmailController {
             }
         }
     }
-
-    private static class BookingMessage {
-        @Getter
-        private String userEmail;
-        private String id;
-        private String userId;
-        private String startDateString;
-        private String endDateString;
-
-    }
 }
+
+

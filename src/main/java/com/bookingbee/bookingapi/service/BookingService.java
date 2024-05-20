@@ -118,35 +118,17 @@ public class BookingService {
         return "Booking updated successfully with user ID: " + userId;
     }
 
-    public void publishBookingConfirmation(String email, String userId, String bookingId) {
+    public void publishBookingConfirmation(String email, String userId, String bookingId, String bookingName, String bookingDetails, String startDateString) {
         String projectId = "interns-melinda";
         String topicId = "booking-confirmation";
-        String messageJson = String.format("{\"email\": \"%s\", \"userId\": \"%s\", \"bookingId\": \"%s\"}", email, userId, bookingId);
 
         try {
-            new PubSubPublisher().publishMessage(projectId, topicId, email, messageJson);
+            new PubSubPublisher().publishMessage(projectId, topicId, email, bookingName, bookingDetails, startDateString);
         } catch (IOException e) {
             System.err.println("Error when trying to publish booking confirmation: " + e.getMessage());
         }
     }
 
-
-    private static class BookingMessage {
-        private String userEmail;
-        private String id;
-        private String userId;
-        private String startDateString;
-        private String endDateString;
-
-        public BookingMessage(String userEmail, String id, String userId, String startDateString, String endDateString) {
-            this.userEmail = userEmail;
-            this.id = id;
-            this.userId = userId;
-            this.startDateString = startDateString;
-            this.endDateString = endDateString;
-        }
-
-    }
 
 
     private Timestamp convertStringToTimestamp(String dateString) {

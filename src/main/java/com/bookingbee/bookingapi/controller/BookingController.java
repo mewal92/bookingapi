@@ -64,8 +64,10 @@ public class BookingController {
             String userEmail = payload.get("userEmail");
             String startDateString = payload.get("startDate");
             String endDateString = payload.get("endDate");
+            String bookingName = payload.get("bookingName");
+            String bookingDetails = payload.get("bookingDetails");
 
-            bookingService.publishBookingConfirmation(userEmail, id, userId);
+            bookingService.publishBookingConfirmation(userEmail, id, userId, bookingName, bookingDetails, startDateString);
 
             String result = bookingService.bookEvent(id, userId, startDateString, endDateString);
             System.out.println("Received booking payload: email=" + userEmail + " id=" + id + ", userId=" + userId + ", startDate=" + startDateString + ", endDate=" + endDateString);
